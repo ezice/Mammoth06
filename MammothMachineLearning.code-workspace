@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "../../../Angular/Learn/angular-decorator"
+		},
+		{
+			"path": "../../../PHP/caballero"
+		},
+		{
+			"path": "../../../Angular/play/silk-from-scratch"
+		},
+		{
+			"path": "../../../Angular/play/silk-main/silk-8"
+		},
+		{
+			"path": "../../../Angular/play/simple"
+		},
+		{
+			"path": "../../../web/play/plain-bootstrap"
+		},
+		{
+			"path": "../../../Angular/play/bootstrap-demo"
+		},
+		{
+			"path": "../../../Angular/Learn/SportsStore"
+		},
+		{
+			"path": "../../../../temp/Books"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../DeepLearningK"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "plain-bootstrap"
+	}
+}
