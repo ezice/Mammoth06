@@ -36,46 +36,16 @@ keywords = {Datasets, recommendations, ratings, MovieLens}
 
 import pandas
 
-ratings_dataframe = pandas.read_csv("ratings.csv" )
-
-ratings_dataframe
-
 FIRST_INDEX_ROW = 0
 
+ratings_dataframe = pandas.read_csv("ratings.csv" )
 ratings_dataframe = ratings_dataframe.drop(ratings_dataframe.index[FIRST_INDEX_ROW])
-
-ratings_dataframe
-
-ratings_dataframe.info()
-
 ratings_dataframe = ratings_dataframe.astype("float")
-
-ratings_dataframe.info()
-
-ratings_dataframe
-
 movies_dataframe = pandas.read_csv("movies.csv")
-
-movies_dataframe
-
-movies_dataframe.info()
-
 movie_titles_dataframe = movies_dataframe[["movieId", "title"]]
-
-movie_titles_dataframe
-
-movie_titles_dataframe.info()
-
 movie_titles_dataframe["movieId"] = movie_titles_dataframe["movieId"].astype(str).astype(float)
 
-movie_titles_dataframe.info()
-
-ratings_dataframe.info()
-
 merged_dataframe = pandas.merge(ratings_dataframe, movie_titles_dataframe, on = "movieId")
-
-merged_dataframe
-
 merged_dataframe.groupby("movieId")["rating"].count().sort_values(ascending = False)
 
 crosstab = merged_dataframe.pivot_table(values  = "rating",
