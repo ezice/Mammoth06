@@ -35,6 +35,7 @@ keywords = {Datasets, recommendations, ratings, MovieLens}
 '''
 
 import pandas
+from sklearn.decomposition import TruncatedSVD
 
 FIRST_INDEX_ROW = 0
 
@@ -48,18 +49,13 @@ movie_titles_dataframe["movieId"] = movie_titles_dataframe["movieId"].astype(str
 merged_dataframe = pandas.merge(ratings_dataframe, movie_titles_dataframe, on = "movieId")
 merged_dataframe.groupby("movieId")["rating"].count().sort_values(ascending = False)
 
+# This creates a sparce matrix with rows of userId and columns of movie title with ratings in the cells.
 crosstab = merged_dataframe.pivot_table(values  = "rating",
                                         index   = "userId",
                                         columns = "title",
                                         fill_value = 0)
-
-crosstab
-
+# This flips the X and Y axes.
 X = crosstab.T
-
-X
-
-from sklearn.decomposition import TruncatedSVD
 
 NUMBER_OF_COMPONENTS = 12
 
