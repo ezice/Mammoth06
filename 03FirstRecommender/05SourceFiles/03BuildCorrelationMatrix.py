@@ -36,13 +36,14 @@ keywords = {Datasets, recommendations, ratings, MovieLens}
 
 import pandas
 from sklearn.decomposition import TruncatedSVD
+import numpy
 
 FIRST_INDEX_ROW = 0
 
-ratings_dataframe = pandas.read_csv("ratings.csv" )
+ratings_dataframe = pandas.read_csv("../00Data/ratings.csv" )
 ratings_dataframe = ratings_dataframe.drop(ratings_dataframe.index[FIRST_INDEX_ROW])
 ratings_dataframe = ratings_dataframe.astype("float")
-movies_dataframe = pandas.read_csv("movies.csv")
+movies_dataframe = pandas.read_csv("../00Data/movies.csv")
 movie_titles_dataframe = movies_dataframe[["movieId", "title"]]
 movie_titles_dataframe["movieId"] = movie_titles_dataframe["movieId"].astype(str).astype(float)
 
@@ -63,11 +64,6 @@ singular_value_decomposition = TruncatedSVD(n_components = NUMBER_OF_COMPONENTS,
                                             random_state = 1)
 
 matrix = singular_value_decomposition.fit_transform(X)
-
-matrix
-
-import numpy
-
 correlation_matrix = numpy.corrcoef(matrix)
 
-correlation_matrix
+print(correlation_matrix)
