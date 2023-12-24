@@ -55,15 +55,14 @@ crosstab = merged_dataframe.pivot_table(values  = "rating",
                                         index   = "userId",
                                         columns = "title",
                                         fill_value = 0)
-# This flips the X and Y axes.
+# This flips the X and Y axes to rows of movie titles and columns of userIds with ratings in the cells.
 X = crosstab.T
 
 NUMBER_OF_COMPONENTS = 12
 
 singular_value_decomposition = TruncatedSVD(n_components = NUMBER_OF_COMPONENTS,
                                             random_state = 1)
-
 matrix = singular_value_decomposition.fit_transform(X)
 correlation_matrix = numpy.corrcoef(matrix)
 
-print(correlation_matrix)
+# print(correlation_matrix)

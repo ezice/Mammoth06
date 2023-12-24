@@ -35,95 +35,50 @@ keywords = {Datasets, recommendations, ratings, MovieLens}
 '''
 
 import pandas
-
-ratings_dataframe = pandas.read_csv("ratings.csv" )
-
-ratings_dataframe
+from sklearn.decomposition import TruncatedSVD
+import numpy
 
 FIRST_INDEX_ROW = 0
 
+ratings_dataframe = pandas.read_csv("../00Data/ratings.csv" )
 ratings_dataframe = ratings_dataframe.drop(ratings_dataframe.index[FIRST_INDEX_ROW])
-
-ratings_dataframe
-
-ratings_dataframe.info()
-
 ratings_dataframe = ratings_dataframe.astype("float")
-
-ratings_dataframe.info()
-
-ratings_dataframe
-
-movies_dataframe = pandas.read_csv("movies.csv")
-
-movies_dataframe
-
-movies_dataframe.info()
-
+movies_dataframe = pandas.read_csv("../00Data/movies.csv")
 movie_titles_dataframe = movies_dataframe[["movieId", "title"]]
-
-movie_titles_dataframe
-
-movie_titles_dataframe.info()
-
 movie_titles_dataframe["movieId"] = movie_titles_dataframe["movieId"].astype(str).astype(float)
 
-movie_titles_dataframe.info()
-
-ratings_dataframe.info()
-
 merged_dataframe = pandas.merge(ratings_dataframe, movie_titles_dataframe, on = "movieId")
-
-merged_dataframe
-
 merged_dataframe.groupby("movieId")["rating"].count().sort_values(ascending = False)
 
+# This creates a sparce matrix with rows of userId and columns of movie title with ratings in the cells.
 crosstab = merged_dataframe.pivot_table(values  = "rating",
                                         index   = "userId",
                                         columns = "title",
                                         fill_value = 0)
-
-crosstab
-
+# This flips the X and Y axes to rows of movie titles and columns of userIds with ratings in the cells.
 X = crosstab.T
-
-X
-
-from sklearn.decomposition import TruncatedSVD
 
 NUMBER_OF_COMPONENTS = 12
 
 singular_value_decomposition = TruncatedSVD(n_components = NUMBER_OF_COMPONENTS,
                                             random_state = 1)
-
 matrix = singular_value_decomposition.fit_transform(X)
 
-matrix
-
-import numpy
-
+# Returns an array of how well each movie correlates to each other movie.
 correlation_matrix = numpy.corrcoef(matrix)
+# print(correlation_matrix)
 
-correlation_matrix
-
+# Returns a Pandas Index object
 movie_titles = crosstab.columns
-
-movie_titles
-
+# Convert to list
 movies_list = list(movie_titles)
-
-movies_list
-
 example_movie_index = movies_list.index("Batman: Year One (2011)")
-
-example_movie_index
-
 example_correlations = correlation_matrix[example_movie_index]
-
-example_correlations
+# print(example_correlations)
 
 MAXIMUM_CORRELATION = 1.0
 
 MINIMUM_CORRELATION = 0.9
 
-list(movie_titles[(example_correlations < MAXIMUM_CORRELATION) & (example_correlations > MINIMUM_CORRELATION)])
+correlated_movies = list(movie_titles[(example_correlations < MAXIMUM_CORRELATION) & (example_correlations > MINIMUM_CORRELATION)])
+print(correlated_movies)
