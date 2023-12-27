@@ -63,9 +63,12 @@ NUMBER_OF_COMPONENTS = 12
 singular_value_decomposition = TruncatedSVD(n_components = NUMBER_OF_COMPONENTS,
                                             random_state = 1)
 matrix = singular_value_decomposition.fit_transform(X)
+print("X size = ", X.size)
+print("matrix size = ", matrix.size)
 
 # Returns an array of how well each movie correlates to each other movie.
 correlation_matrix = numpy.corrcoef(matrix)
+print("correlation_matrix size = ", correlation_matrix.size)
 # print(correlation_matrix)
 
 # Returns a Pandas Index object
